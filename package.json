@@ -1,0 +1,14 @@
+{
+  "name": "websnake",
+  "version": "1.0.0",
+  "repository": "git@github.com:PunGy/web-snake.git",
+  "license": "MIT",
+  "scripts": {
+    "serve": "node server/app.js",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
