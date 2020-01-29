@@ -4,11 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Sigmar+One&display=swap" rel="stylesheet"> 
     <link href="style.css" rel="stylesheet">
     <title>js document</title>
 </head>
 <body>
-    <div id='gameMap'></div>
+    <span id="gameStateMessage">Start game</span>
+
+    <div id="gameContainer">
+        <div id="gameMap"></div>
+        <div id="scoreContainer">
+            Score:
+            <span id="score">0</span>
+        </div>
+    </div>
+
+    <div class="controlButtons">
+        <button id="resetButton">Reset</button>
+        <button id="pauseButton">Pause</button>
+        <button id="startButton">Start</button>
+    </div>
+
     <script src="map.bundle.js"></script>
     <script src="objects.bundle.js"></script>
     <script src="game.bundle.js"></script>

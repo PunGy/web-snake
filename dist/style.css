@@ -1,22 +1,43 @@
 * {
     box-sizing: border-box;
+    font-family: "Sigmar One";
 }
 
 body {
   margin: 100px;
 }
-#gameMap {
+
+#gameStateMessage {
+  font-size: 30px;
+  text-align: center;
+  display: block;
+  margin: 20px 0;
+}
+#gameContainer {
   width: 500px;
   height: 500px;
   margin: 0 auto;
+  position: relative;
+}
+#gameMap {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
-  background-color: #ccc;
+  background-color: #eee;
+}
+#scoreContainer {
+  position: absolute;
+  top: 0;
+  left: 550px;
+  width: 10em;
+  font-size: 20px;
 }
 .cell {
   width: 20px;
   height: 20px;
 }
+
 .mouse {
   background-color: blue;
 }
@@ -25,4 +46,25 @@ body {
 }
 .snakeHead {
   background-color: black;
+}
+
+.controlButtons {
+  width: 500px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+
+}
+.controlButtons > button {
+  padding: 0.5em 2em;
+  font-size: 18px;
+}
+#resetButton {
+  background-color: #fc5050;
+}
+#pauseButton {
+  background-color: #ccc;
+}
+#startButton {
+  background-color: #58fc73;
 }
