@@ -4,10 +4,10 @@ export function getRandomFromRange(min, max) {
 
 export function getCoordinatesFromRange(ranges = {}) {
     const {
-        XMin = GameMap.lowestIndex,
-        XMax = GameMap.mapSize,
-        YMin = GameMap.lowestIndex,
-        YMax = GameMap.mapSize,
+        XMin = GameControl.lowestIndex,
+        XMax = GameControl.mapSize,
+        YMin = GameControl.lowestIndex,
+        YMax = GameControl.mapSize,
     } = ranges;
     return {
         x: getRandomFromRange(XMin, XMax),
@@ -22,7 +22,7 @@ export function hasColisions(coordinates1, coordinates2) {
 }
 
 // Singleton class of game map
-export class GameMap {
+export class GameControl {
     static _instance = null;
     static mapSize = 25;
     static lowestIndex = 0;
@@ -42,10 +42,10 @@ export class GameMap {
             this.gameMap.push(cell);
         }
 
-        GameMap._instance = this
+        GameControl._instance = this
     };
 
     getCell(coordinates) {
-        return this.gameMap[coordinates.y * GameMap.mapSize + coordinates.x];
+        return this.gameMap[coordinates.y * GameControl.mapSize + coordinates.x];
     };
 }

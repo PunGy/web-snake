@@ -1,18 +1,18 @@
 import {
     getCoordinatesFromRange,
     hasColisions,
-    GameMap,
+    GameControl,
 } from './mapControl'
 
 const defaultSnakeWidth = 3;
 
-const gameMap = new GameMap();
+const gameControl = new GameControl();
 console.log(123)
 export class Snake {
     constructor() {
         // get xy for head
         const headCoordinates = getCoordinatesFromRange({
-            XMin: GameMap.lowestIndex + defaultSnakeWidth,
+            XMin: GameControl.lowestIndex + defaultSnakeWidth,
         });
         // generate coordinates for body of snake
         const snakeBodyCoordinates = [
@@ -29,7 +29,7 @@ export class Snake {
     drawSnake() {
         // get cells from coordinates
         const snakeBodyCells = this.bodyCoordinates.map(crns => (
-            gameMap.getCell(crns)
+            GameControl.getCell(crns)
         ));
         // mark cells as snake
         snakeBodyCells.forEach((cell, i) => {
@@ -44,23 +44,23 @@ export class Snake {
             // if current head is on border 
             case 'right':
                 return {
-                    x: head.x === GameMap.mapSize - 1 ? GameMap.lowestIndex : head.x + 1,
+                    x: head.x === GameControl.mapSize - 1 ? GameControl.lowestIndex : head.x + 1,
                     y: head.y,
                 };
             case 'left':
                 return {
-                    x: head.x === 0 ? GameMap.mapSize - 1 : head.x - 1,
+                    x: head.x === 0 ? GameControl.mapSize - 1 : head.x - 1,
                     y: head.y,
                 };
             case 'up':
                 return {
                     x: head.x,
-                    y: head.y === 0 ? GameMap.mapSize - 1 : head.y - 1,
+                    y: head.y === 0 ? GameControl.mapSize - 1 : head.y - 1,
                 };
             case 'down':
                 return {
                     x: head.x,
-                    y: head.y === GameMap.mapSize - 1 ? GameMap.lowestIndex : head.y + 1,
+                    y: head.y === GameControl.mapSize - 1 ? GameControl.lowestIndex : head.y + 1,
                 }
         }
     }
@@ -80,10 +80,10 @@ export class Snake {
     move(mouse) {
         const { bodyCoordinates } = this;
         const nextHeadCoordinates = this.getNextHeadCoordinates();
-        const currentHeadCell = gameMap.getCell(bodyCoordinates[0]);
+        const currentHeadCell = GameControl.getCell(bodyCoordinates[0]);
         const tailCoordinates = Object.assign({}, bodyCoordinates[bodyCoordinates.length - 1]);
         
-        if (gameMap.getCell(nextHeadCoordinates).classList.contains('snakeBody')) return false;
+        if (GameControl.getCell(nextHeadCoordinates).classList.contains('snakeBody')) return false;
 
         const isCanEat = hasColisions(bodyCoordinates[0], mouse.coordinates)
 
@@ -94,7 +94,7 @@ export class Snake {
         currentHeadCell.classList.remove('snakeHead')
 
         if (!isCanEat) {
-            gameMap.getCell(tailCoordinates).classList.remove('snakeBody');
+            GameControl.getCell(tailCoordinates).classList.remove('snakeBody');
         }
 
         if (isCanEat) {
@@ -109,10 +109,10 @@ export class Snake {
 export class Mouse {
     static spawnMouse() {
         let mouseCoordinates = getCoordinatesFromRange();
-        let mouseCell = gameMap.getCell(mouseCoordinates);
+        let mouseCell = GameControl.getCell(mouseCoordinates);
         while (mouseCell.classList.contains('snakeBody', 'snakeHead')) {
             mouseCoordinates = getCoordinatesFromRange();
-            mouseCell = gameMap.getCell(mouseCoordinates);
+            mouseCell = GameControl.getCell(mouseCoordinates);
         }
         mouseCell.classList.add('mouse');
 
