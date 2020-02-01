@@ -30,7 +30,15 @@ export class GameControl {
     constructor() {
         if (GameMap._instance != null) return GameMap._instance
 
-        this.gameMapElement = document.getElementById('gameMap')
+        this.gameMapElement = document.getElementById('gameMap');
+        this.scoreElement = document.getElementById('score');
+        this.resetButtonElement = document.getElementById('resetButton');
+        this.pauseButtonElement = document.getElementById('pauseButton');
+        this.startButtonElement = document.getElementById('startButton');
+        this.gameStateMessageElement = document.getElementById('gameStateMessage');
+
+        // states: pause|play
+        this.state = 'pause';
         this.gameMap = [];
 
         const elemsCount = GameMap.mapSize ** 2;
