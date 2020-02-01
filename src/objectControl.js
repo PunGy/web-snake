@@ -1,20 +1,18 @@
 import {
-    getCell,
     getCoordinatesFromRange,
-    lowestIndex,
     hasColisions,
-    mapSize,
     GameMap,
 } from './mapControl'
 
 const defaultSnakeWidth = 3;
 
 const gameMap = new GameMap();
+console.log(123)
 export class Snake {
     constructor() {
         // get xy for head
         const headCoordinates = getCoordinatesFromRange({
-            XMin: lowestIndex + defaultSnakeWidth,
+            XMin: GameMap.lowestIndex + defaultSnakeWidth,
         });
         // generate coordinates for body of snake
         const snakeBodyCoordinates = [
@@ -46,29 +44,29 @@ export class Snake {
             // if current head is on border 
             case 'right':
                 return {
-                    x: head.x === mapSize - 1 ? lowestIndex : head.x + 1,
+                    x: head.x === GameMap.mapSize - 1 ? GameMap.lowestIndex : head.x + 1,
                     y: head.y,
                 };
             case 'left':
                 return {
-                    x: head.x === 0 ? mapSize - 1 : head.x - 1,
+                    x: head.x === 0 ? GameMap.mapSize - 1 : head.x - 1,
                     y: head.y,
                 };
             case 'up':
                 return {
                     x: head.x,
-                    y: head.y === 0 ? mapSize - 1 : head.y - 1,
+                    y: head.y === 0 ? GameMap.mapSize - 1 : head.y - 1,
                 };
             case 'down':
                 return {
                     x: head.x,
-                    y: head.y === mapSize - 1 ? lowestIndex : head.y + 1,
+                    y: head.y === GameMap.mapSize - 1 ? GameMap.lowestIndex : head.y + 1,
                 }
         }
     }
     changeDirection(event) {
         if (!this.allowChangeDirection) {
-            this.changeDirectionStack.push(() => this.changeSnakeDirection(event));
+            this.changeDirectionStack.push(() => this.changeDirection(event));
             return;
         }
         const { code } = event;

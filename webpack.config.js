@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     entry: {
         game: './src/game.js',
         objects: './src/objectControl.js',
@@ -14,7 +14,10 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.m?js$/,
+                test: /\.js$/,
+                include: [
+                    path.resolve(__dirname, "src")
+                ],
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
@@ -25,5 +28,7 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    target: 'web',
+    devtool: 'inline-source-map',
 }

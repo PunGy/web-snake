@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "serve": "node server/app.js",
-    "build": "webpack",
-    "watch": "webpack -w"
+    "build": "webpack --progress",
+    "watch": "webpack -w --progress"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

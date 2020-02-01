@@ -1,19 +1,13 @@
-const gameMapElement = document.getElementById('gameMap')
-const gameMap = [];
-
-export const mapSize = 25;
-export const lowestIndex = 0;
-
 export function getRandomFromRange(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
 export function getCoordinatesFromRange(ranges = {}) {
     const {
-        XMin = lowestIndex,
-        XMax = mapSize,
-        YMin = lowestIndex,
-        YMax = mapSize,
+        XMin = GameMap.lowestIndex,
+        XMax = GameMap.mapSize,
+        YMin = GameMap.lowestIndex,
+        YMax = GameMap.mapSize,
     } = ranges;
     return {
         x: getRandomFromRange(XMin, XMax),
@@ -29,24 +23,29 @@ export function hasColisions(coordinates1, coordinates2) {
 
 // Singleton class of game map
 export class GameMap {
-    _instance = null;
+    static _instance = null;
+    static mapSize = 25;
+    static lowestIndex = 0;
+
     constructor() {
-        if (this._instance != null) return this._instance
+        if (GameMap._instance != null) return GameMap._instance
 
         this.gameMapElement = document.getElementById('gameMap')
         this.gameMap = [];
 
-        const elemsCount = mapSize ** 2;
-        for (let i = lowestIndex; i < elemsCount; i++) {
+        const elemsCount = GameMap.mapSize ** 2;
+        for (let i = GameMap.lowestIndex; i < elemsCount; i++) {
             const cell = document.createElement('div');
         
             cell.classList.add('cell');
-            gameMapElement.appendChild(cell);
-            gameMap.push(cell);
+            this.gameMapElement.appendChild(cell);
+            this.gameMap.push(cell);
         }
+
+        GameMap._instance = this
     };
 
     getCell(coordinates) {
-        return gameMap[coordinates.y * mapSize + coordinates.x];
+        return this.gameMap[coordinates.y * GameMap.mapSize + coordinates.x];
     };
 }
