@@ -1,10 +1,9 @@
-import { printGameMap } from './mapControl'
+import { GameMap } from './mapControl'
 import {
     Snake, Mouse
 } from './objectControl'
 
-printGameMap();
-
+new GameMap();
 const snake = new Snake();
 const mouse = new Mouse();
 snake.drawSnake();

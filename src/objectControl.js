@@ -4,9 +4,12 @@ import {
     lowestIndex,
     hasColisions,
     mapSize,
+    GameMap,
 } from './mapControl'
 
 const defaultSnakeWidth = 3;
+
+const gameMap = new GameMap();
 export class Snake {
     constructor() {
         // get xy for head
@@ -28,7 +31,7 @@ export class Snake {
     drawSnake() {
         // get cells from coordinates
         const snakeBodyCells = this.bodyCoordinates.map(crns => (
-            getCell(crns)
+            gameMap.getCell(crns)
         ));
         // mark cells as snake
         snakeBodyCells.forEach((cell, i) => {
@@ -79,10 +82,10 @@ export class Snake {
     move(mouse) {
         const { bodyCoordinates } = this;
         const nextHeadCoordinates = this.getNextHeadCoordinates();
-        const currentHeadCell = getCell(bodyCoordinates[0]);
+        const currentHeadCell = gameMap.getCell(bodyCoordinates[0]);
         const tailCoordinates = Object.assign({}, bodyCoordinates[bodyCoordinates.length - 1]);
         
-        if (getCell(nextHeadCoordinates).classList.contains('snakeBody')) return false;
+        if (gameMap.getCell(nextHeadCoordinates).classList.contains('snakeBody')) return false;
 
         const isCanEat = hasColisions(bodyCoordinates[0], mouse.coordinates)
 
@@ -93,7 +96,7 @@ export class Snake {
         currentHeadCell.classList.remove('snakeHead')
 
         if (!isCanEat) {
-            getCell(tailCoordinates).classList.remove('snakeBody');
+            gameMap.getCell(tailCoordinates).classList.remove('snakeBody');
         }
 
         if (isCanEat) {
@@ -108,10 +111,10 @@ export class Snake {
 export class Mouse {
     static spawnMouse() {
         let mouseCoordinates = getCoordinatesFromRange();
-        let mouseCell = getCell(mouseCoordinates);
+        let mouseCell = gameMap.getCell(mouseCoordinates);
         while (mouseCell.classList.contains('snakeBody', 'snakeHead')) {
             mouseCoordinates = getCoordinatesFromRange();
-            mouseCell = getCell(mouseCoordinates);
+            mouseCell = gameMap.getCell(mouseCoordinates);
         }
         mouseCell.classList.add('mouse');
 

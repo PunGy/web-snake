@@ -20,26 +20,33 @@ export function getCoordinatesFromRange(ranges = {}) {
         y: getRandomFromRange(YMin, YMax)
     }
 }
-export function getCell(coordinates) {
-    return gameMap[coordinates.y * mapSize + coordinates.x];
-}
-
 export function hasColisions(coordinates1, coordinates2) {
     return (
         coordinates1.x === coordinates2.x
         && coordinates1.y === coordinates2.y
     )
 }
-export function printGameMap() {
-    // preserve double calling
-    if (gameMap.length > 0 || gameMapElement.children.length > 0) return;
 
-    const elemsCount = mapSize ** 2;
-    for (let i = lowestIndex; i < elemsCount; i++) {
-        const cell = document.createElement('div');
-    
-        cell.classList.add('cell');
-        gameMapElement.appendChild(cell);
-        gameMap.push(cell);
-    }
+// Singleton class of game map
+export class GameMap {
+    _instance = null;
+    constructor() {
+        if (this._instance != null) return this._instance
+
+        this.gameMapElement = document.getElementById('gameMap')
+        this.gameMap = [];
+
+        const elemsCount = mapSize ** 2;
+        for (let i = lowestIndex; i < elemsCount; i++) {
+            const cell = document.createElement('div');
+        
+            cell.classList.add('cell');
+            gameMapElement.appendChild(cell);
+            gameMap.push(cell);
+        }
+    };
+
+    getCell(coordinates) {
+        return gameMap[coordinates.y * mapSize + coordinates.x];
+    };
 }
