@@ -1,20 +1,22 @@
 import {
     Snake, Mouse
 } from './objectControl'
+import { GameControl } from './mapControl';
 
+const gameControl = new GameControl();
 const snake = new Snake();
 const mouse = new Mouse();
 snake.drawSnake();
 
 document.addEventListener('keydown', snake.changeDirection.bind(snake))
 
-const gameLoop = setInterval(gameLoopFn, 100);
+let gameLoop = null;
 
 function gameLoopFn() {
+    console.log(gameLoop)
     const isSuccessfull = snake.move(mouse);
     if (!isSuccessfull) {
-        alert('GAME OVER');
-        clearInterval(gameLoop);
+        gameOver();
     }
     snake.drawSnake();
     snake.allowChangeDirection = true;
@@ -22,3 +24,56 @@ function gameLoopFn() {
         snake.changeDirectionStack.shift()();
     }
 }
+
+function resetMap() {
+    snake.clearSnake();
+    snake.constructor();
+    snake.drawSnake();
+
+    mouse.clearMouse();
+    mouse.constructor();
+}
+
+function startGame() {
+    if (gameControl.state === 'gameover') resetMap();
+
+    gameLoop = setInterval(gameLoopFn, GameControl.gameLoopRefreshRate);
+    gameControl.state = 'play';
+
+    gameControl.startButtonElement.disabled = true;
+    gameControl.pauseButtonElement.disabled = false;
+    gameControl.resetButtonElement.disabled = false;
+}
+function pauseGame() {
+    if (gameLoop) clearInterval(gameLoop);
+
+    gameControl.state = 'pause';
+
+    gameControl.startButtonElement.disabled = false;
+    gameControl.pauseButtonElement.disabled = true;
+}
+function resetGame() {
+    if (gameLoop) clearInterval(gameLoop);
+
+    gameControl.state = 'begin';
+    gameControl.score = 0;
+
+    gameControl.startButtonElement.disabled = false;
+    gameControl.pauseButtonElement.disabled = true;
+    gameControl.resetButtonElement.disabled = true;
+
+    resetMap();
+}
+function gameOver() {
+    if (gameLoop) clearInterval(gameLoop);
+
+    gameControl.state = 'gameover';
+    gameControl.score = 0;
+}
+
+gameControl.pauseButtonElement.disabled = true;
+gameControl.resetButtonElement.disabled = true;
+
+gameControl.startButtonElement.addEventListener('click', startGame)
+gameControl.pauseButtonElement.addEventListener('click', pauseGame)
+gameControl.resetButtonElement.addEventListener('click', resetGame)

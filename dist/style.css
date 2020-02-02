@@ -53,11 +53,11 @@ body {
   margin: 20px auto;
   display: flex;
   justify-content: space-between;
-
 }
 .controlButtons > button {
   padding: 0.5em 2em;
   font-size: 18px;
+  cursor: pointer;
 }
 #resetButton {
   background-color: #fc5050;

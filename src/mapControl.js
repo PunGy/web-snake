@@ -26,9 +26,10 @@ export class GameControl {
     static _instance = null;
     static mapSize = 25;
     static lowestIndex = 0;
+    static gameLoopRefreshRate = 100;
 
     constructor() {
-        if (GameMap._instance != null) return GameMap._instance
+        if (GameControl._instance != null) return GameControl._instance
 
         this.gameMapElement = document.getElementById('gameMap');
         this.scoreElement = document.getElementById('score');
@@ -37,12 +38,14 @@ export class GameControl {
         this.startButtonElement = document.getElementById('startButton');
         this.gameStateMessageElement = document.getElementById('gameStateMessage');
 
-        // states: pause|play
-        this.state = 'pause';
+        this.score = 0;
+        // states: pause|play|begin|gameover
+        this.state = 'begin';
         this.gameMap = [];
 
-        const elemsCount = GameMap.mapSize ** 2;
-        for (let i = GameMap.lowestIndex; i < elemsCount; i++) {
+        const elemsCount = GameControl.mapSize ** 2;
+        // Paint cells on map
+        for (let i = GameControl.lowestIndex; i < elemsCount; i++) {
             const cell = document.createElement('div');
         
             cell.classList.add('cell');
@@ -52,6 +55,28 @@ export class GameControl {
 
         GameControl._instance = this
     };
+    set state(nextState) {
+        let message;
+        switch (nextState) {
+            case 'pause':
+                message = 'Game was stoped';
+                break;
+            case 'play':
+                message = 'Play';
+                break;
+            case 'begin':
+                message = 'Start game';
+                break;
+            case 'gameover':
+                message = `You are lose. Your score is ${this.score}`;
+                break;
+            default:
+                message = 'Undefined state';
+                console.error('Undefined state: ', this.state);
+        }
+        this.gameStateMessageElement.innerText = message;
+        return nextState;
+    }
 
     getCell(coordinates) {
         return this.gameMap[coordinates.y * GameControl.mapSize + coordinates.x];

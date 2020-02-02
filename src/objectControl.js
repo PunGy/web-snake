@@ -7,7 +7,6 @@ import {
 const defaultSnakeWidth = 3;
 
 const gameControl = new GameControl();
-console.log(123)
 export class Snake {
     constructor() {
         // get xy for head
@@ -26,11 +25,25 @@ export class Snake {
         this.direction = 'right';
         this.changeDirectionStack = [];
     }
+    getBodyCells() {
+        return (
+            this.bodyCoordinates.map(crns => (
+                gameControl.getCell(crns)
+            ))
+        );
+
+    }
+    clearSnake() {
+        // get cells from coordinates
+        const snakeBodyCells = this.getBodyCells();
+        snakeBodyCells.forEach((cell, i) => {
+            if (i === 0) cell.classList.remove('snakeHead')
+            else cell.classList.remove('snakeBody')
+        })
+    }
     drawSnake() {
         // get cells from coordinates
-        const snakeBodyCells = this.bodyCoordinates.map(crns => (
-            GameControl.getCell(crns)
-        ));
+        const snakeBodyCells = this.getBodyCells();
         // mark cells as snake
         snakeBodyCells.forEach((cell, i) => {
             if (i === 0) cell.classList.add('snakeHead')
@@ -80,10 +93,10 @@ export class Snake {
     move(mouse) {
         const { bodyCoordinates } = this;
         const nextHeadCoordinates = this.getNextHeadCoordinates();
-        const currentHeadCell = GameControl.getCell(bodyCoordinates[0]);
+        const currentHeadCell = gameControl.getCell(bodyCoordinates[0]);
         const tailCoordinates = Object.assign({}, bodyCoordinates[bodyCoordinates.length - 1]);
         
-        if (GameControl.getCell(nextHeadCoordinates).classList.contains('snakeBody')) return false;
+        if (gameControl.getCell(nextHeadCoordinates).classList.contains('snakeBody')) return false;
 
         const isCanEat = hasColisions(bodyCoordinates[0], mouse.coordinates)
 
@@ -94,7 +107,7 @@ export class Snake {
         currentHeadCell.classList.remove('snakeHead')
 
         if (!isCanEat) {
-            GameControl.getCell(tailCoordinates).classList.remove('snakeBody');
+            gameControl.getCell(tailCoordinates).classList.remove('snakeBody');
         }
 
         if (isCanEat) {
@@ -109,14 +122,17 @@ export class Snake {
 export class Mouse {
     static spawnMouse() {
         let mouseCoordinates = getCoordinatesFromRange();
-        let mouseCell = GameControl.getCell(mouseCoordinates);
+        let mouseCell = gameControl.getCell(mouseCoordinates);
         while (mouseCell.classList.contains('snakeBody', 'snakeHead')) {
             mouseCoordinates = getCoordinatesFromRange();
-            mouseCell = GameControl.getCell(mouseCoordinates);
+            mouseCell = gameControl.getCell(mouseCoordinates);
         }
         mouseCell.classList.add('mouse');
 
         return mouseCoordinates
+    }
+    clearMouse() {
+        gameControl.getCell(this.coordinates).classList.remove('mouse')
     }
 
     constructor() {
