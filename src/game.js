@@ -8,12 +8,24 @@ const snake = new Snake();
 const mouse = new Mouse();
 snake.drawSnake();
 
-document.addEventListener('keydown', snake.changeDirection.bind(snake))
+document.addEventListener('keydown', (event) => {
+    // if it is not a change direction click
+    if (!snake.changeDirection(event)) {
+        const { code } = event;
+        if (code === 'Enter' && gameControl.state !== 'play') {
+            startGame();
+        } else if (code === 'Space') {
+            if (gameControl.state === 'pause') startGame()
+            else pauseGame();
+        } else if (code === 'Escape') {
+            resetGame();
+        }
+    }
+})
 
 let gameLoop = null;
 
 function gameLoopFn() {
-    console.log(gameLoop)
     const isSuccessfull = snake.move(mouse);
     if (!isSuccessfull) {
         gameOver();
@@ -35,7 +47,9 @@ function resetMap() {
 }
 
 function startGame() {
-    if (gameControl.state === 'gameover') resetMap();
+    if (gameControl.state === 'gameover') {
+        resetMap();
+    }
 
     gameLoop = setInterval(gameLoopFn, GameControl.gameLoopRefreshRate);
     gameControl.state = 'play';
@@ -66,6 +80,10 @@ function resetGame() {
 }
 function gameOver() {
     if (gameLoop) clearInterval(gameLoop);
+
+    gameControl.pauseButtonElement.disabled = true;
+    gameControl.resetButtonElement.disabled = true;
+    gameControl.startButtonElement.disabled = false;
 
     gameControl.state = 'gameover';
     gameControl.score = 0;

@@ -38,9 +38,9 @@ export class GameControl {
         this.startButtonElement = document.getElementById('startButton');
         this.gameStateMessageElement = document.getElementById('gameStateMessage');
 
-        this.score = 0;
+        this._score = 0;
         // states: pause|play|begin|gameover
-        this.state = 'begin';
+        this._state = 'begin';
         this.gameMap = [];
 
         const elemsCount = GameControl.mapSize ** 2;
@@ -55,6 +55,9 @@ export class GameControl {
 
         GameControl._instance = this
     };
+    get state() {
+        return this._state;
+    }
     set state(nextState) {
         let message;
         switch (nextState) {
@@ -75,7 +78,14 @@ export class GameControl {
                 console.error('Undefined state: ', this.state);
         }
         this.gameStateMessageElement.innerText = message;
-        return nextState;
+        this._state = nextState;
+    }
+    get score() {
+        return this._score;
+    }
+    set score(nextScore) {
+        this.scoreElement.innerText = nextScore;
+        this._score = nextScore;
     }
 
     getCell(coordinates) {

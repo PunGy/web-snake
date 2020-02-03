@@ -78,17 +78,24 @@ export class Snake {
         }
     }
     changeDirection(event) {
-        if (!this.allowChangeDirection) {
-            this.changeDirectionStack.push(() => this.changeDirection(event));
-            return;
-        }
         const { code } = event;
+        let direction = '';
     
-        if (code === 'ArrowLeft' && this.direction !== 'right') this.direction = 'left'
-        else if (code === 'ArrowRight' && this.direction !== 'left') this.direction = 'right'
-        else if (code === 'ArrowUp' && this.direction !== 'down') this.direction = 'up'
-        else if (code === 'ArrowDown' && this.direction !== 'up') this.direction = 'down'
-        this.allowChangeDirection = false;
+        if (code === 'ArrowLeft' && this.direction !== 'right') direction = 'left'
+        else if (code === 'ArrowRight' && this.direction !== 'left') direction = 'right'
+        else if (code === 'ArrowUp' && this.direction !== 'down') direction = 'up'
+        else if (code === 'ArrowDown' && this.direction !== 'up') direction = 'down'
+        
+        const isChangeDirection = direction !== ''
+        if (isChangeDirection) {
+            if (!this.allowChangeDirection) {
+                this.changeDirectionStack.push(() => this.changeDirection(event));
+                return false;
+            }
+            this.direction = direction;
+            this.allowChangeDirection = false; 
+        }
+        return isChangeDirection;
     }
     move(mouse) {
         const { bodyCoordinates } = this;
@@ -114,6 +121,7 @@ export class Snake {
             bodyCoordinates.push(tailCoordinates);
             currentHeadCell.classList.remove('mouse');
             mouse.coordinates = Mouse.spawnMouse();
+            gameControl.score = gameControl.score + 1;
         }
         return true;
     }
