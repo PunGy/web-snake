@@ -12,12 +12,13 @@ document.addEventListener('keydown', (event) => {
     // if it is not a change direction click
     if (!snake.changeDirection(event)) {
         const { code } = event;
+
         if (code === 'Enter' && gameControl.state !== 'play') {
             startGame();
-        } else if (code === 'Space') {
+        } else if (code === 'Space' && gameControl.state === 'play' || gameControl.state === 'pause') {
             if (gameControl.state === 'pause') startGame()
             else pauseGame();
-        } else if (code === 'Escape') {
+        } else if (code === 'Escape' && gameControl.state !== 'begin') {
             resetGame();
         }
     }
