@@ -1,5 +1,7 @@
 # WEB SNAKE
 Snake game is written on plain javascript.
+
+Try it out in: https://pungy.github.io/web-snake/dist/
 # Usage
 Type **yarn build( or npm start build )** to build files<br/>
 Then open dist/index.html. Or type **yarn serve( or npm start serve )** to start server, and open in browser **http://localhost:8080**
