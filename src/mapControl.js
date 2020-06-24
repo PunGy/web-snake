@@ -2,18 +2,6 @@ export function getRandomFromRange(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-export function getCoordinatesFromRange(ranges = {}) {
-    const {
-        XMin = GameControl.lowestIndex,
-        XMax = GameControl.mapSize,
-        YMin = GameControl.lowestIndex,
-        YMax = GameControl.mapSize,
-    } = ranges;
-    return {
-        x: getRandomFromRange(XMin, XMax),
-        y: getRandomFromRange(YMin, YMax)
-    }
-}
 export function hasColisions(coordinates1, coordinates2) {
     return (
         coordinates1.x === coordinates2.x
@@ -24,12 +12,15 @@ export function hasColisions(coordinates1, coordinates2) {
 // Singleton class of game map
 export class GameControl {
     static _instance = null;
-    static mapSize = 25;
+    static cellSize = 20; // size of cell in pixel
     static lowestIndex = 0;
     static gameLoopRefreshRate = 100;
+    static backgroundColor = '#eeeeee';
+    static mapWidthPX = 500;
+    static mapHeightPX = 500;
 
     constructor() {
-        if (GameControl._instance != null) return GameControl._instance
+        if (GameControl._instance != null) return GameControl._instance;
 
         this.gameMapElement = document.getElementById('gameMap');
         this.scoreElement = document.getElementById('score');
@@ -38,22 +29,22 @@ export class GameControl {
         this.startButtonElement = document.getElementById('startButton');
         this.gameStateMessageElement = document.getElementById('gameStateMessage');
 
+        this.gameMapElement.width = GameControl.mapWidthPX
+        this.gameMapElement.height = GameControl.mapHeightPX
+
+        const { width, height } = GameControl.getMapSize()
+        this.gameMap = Array.from({ length: width }, () => Array(height).fill(0));
+        
         this._score = 0;
         // states: pause|play|begin|gameover
         this._state = 'begin';
-        this.gameMap = [];
-
-        const elemsCount = GameControl.mapSize ** 2;
-        // Paint cells on map
-        for (let i = GameControl.lowestIndex; i < elemsCount; i++) {
-            const cell = document.createElement('div');
         
-            cell.classList.add('cell');
-            this.gameMapElement.appendChild(cell);
-            this.gameMap.push(cell);
-        }
+        this.ctx = this.gameMapElement.getContext('2d');
 
-        GameControl._instance = this
+        // fill game map
+        this.drawBackground();
+
+        GameControl._instance = this;
     };
     get state() {
         return this._state;
@@ -88,7 +79,48 @@ export class GameControl {
         this._score = nextScore;
     }
 
-    getCell(coordinates) {
-        return this.gameMap[coordinates.y * GameControl.mapSize + coordinates.x];
+    static getMapSize() {
+        const { mapWidthPX, mapHeightPX, cellSize } = GameControl
+        return { width: Math.floor(mapWidthPX / cellSize), height: Math.floor(mapHeightPX / cellSize) }
+    }
+    getObject({ x, y }) {
+        return this.gameMap[x][y];
     };
+    drawBackground() {
+        this.ctx.fillStyle = GameControl.backgroundColor;
+        this.ctx.fillRect(GameControl.lowestIndex, GameControl.lowestIndex, GameControl.mapWidthPX, GameControl.mapHeightPX);
+    }
+    drawCell({ x, y }, color, object) {
+        const { ctx, gameMap } = this;
+        const { cellSize, backgroundColor } = GameControl
+        ctx.fillStyle = color || backgroundColor;
+        ctx.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1)
+        gameMap[x][y] = object
+    }
+    clearCell({ x, y }, nextObject) {
+        const { cellSize, backgroundColor } = GameControl
+        this.ctx.fillStyle = backgroundColor
+        this.ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize)
+        this.gameMap[x][y] = nextObject || 0
+    }
+
+
+    getCoordinatesFromRange(ranges = {}, checkCollisions = true) {
+        const { width, height } = GameControl.getMapSize()
+        const {
+            XMin = GameControl.lowestIndex,
+            XMax = width,
+            YMin = GameControl.lowestIndex,
+            YMax = height,
+        } = ranges;
+        let x = getRandomFromRange(XMin, XMax),
+            y = getRandomFromRange(YMin, YMax);
+
+        while (checkCollisions && this.gameMap[x][y] !== 0) {
+            x = getRandomFromRange(XMin, XMax);
+            y = getRandomFromRange(YMin, YMax);
+        }
+
+        return { x, y }
+    }
 }
