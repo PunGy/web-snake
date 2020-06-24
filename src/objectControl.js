@@ -9,10 +9,12 @@ const EMPTY = 0
 const SNAKE_HEAD = 1
 const SNAKE_BODY = 2
 const MOUSE = 3
+const WALL = 4
 
-const SNAKE_HEAD_COLOR = 'black'
+const SNAKE_HEAD_COLOR = '#8e0000'
 const SNAKE_BODY_COLOR = 'red'
 const MOUSE_COLOR = 'blue'
+const WALL_COLOR = 'black'
 
 const gameControl = new GameControl();
 export class Snake {

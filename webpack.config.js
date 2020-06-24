@@ -1,7 +1,7 @@
 const path = require('path');
 
-module.exports = {
-    mode: 'development',
+module.exports = (env) => ({
+    mode: env.MODE,
     entry: {
         game: './src/game.js',
         objects: './src/objectControl.js',
@@ -31,4 +31,4 @@ module.exports = {
     },
     target: 'web',
     devtool: 'inline-source-map',
-}
+})

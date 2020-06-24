@@ -27,20 +27,6 @@ body {
   width: 10em;
   font-size: 20px;
 }
-.cell {
-  width: 20px;
-  height: 20px;
-}
-
-.mouse {
-  background-color: blue;
-}
-.snakeBody {
-  background-color: red;
-}
-.snakeHead {
-  background-color: black;
-}
 
 .controlButtons {
   width: 500px;

@@ -90,11 +90,13 @@ export class GameControl {
         this.ctx.fillStyle = GameControl.backgroundColor;
         this.ctx.fillRect(GameControl.lowestIndex, GameControl.lowestIndex, GameControl.mapWidthPX, GameControl.mapHeightPX);
     }
-    drawCell({ x, y }, color, object) {
+    drawCell({ x, y }, color, object, crop = true) {
         const { ctx, gameMap } = this;
-        const { cellSize, backgroundColor } = GameControl
+        const { backgroundColor, cellSize } = GameControl
+        const fillSize = crop ? cellSize - 1 : cellSize
+
         ctx.fillStyle = color || backgroundColor;
-        ctx.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1)
+        ctx.fillRect(x * cellSize, y * cellSize, fillSize,  fillSize)
         gameMap[x][y] = object
     }
     clearCell({ x, y }, nextObject) {

@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "serve": "http-server dist -p 8080",
-    "build": "webpack --progress",
+    "build": "webpack --env.MODE=development --progress",
+    "prod-build": "webpack --env.MODE=production --porgress",
     "watch": "webpack -w --progress"
   },
   "devDependencies": {
