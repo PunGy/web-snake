@@ -10,6 +10,5 @@ Then open dist/index.html. Or type **yarn serve( or npm start serve )** to start
 For scripts usage, need node.js and package manager as npm or yarn
 
 * **serve** - run server on http://localhost:8080
-* **build** - build javascript with webpack
-
-### Currently project is work in progress and some solutions, like div's, is not good
+* **build** - build javascript with webpack (development build)
+* **prod-build** - build javascript with webpack (production build)
