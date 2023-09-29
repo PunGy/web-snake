@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Sigmar+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <title>Snake</title>
+</head>
+<body>
+
+    <span id="game-state-message">Start game</span>
+
+    <div id="game-container">
+        <div class="score-container" id="records-table">
+            <span id="records-header">Records</span>
+            <div>08-09-2020: 82</div>
+        </div>
+        <canvas id="game-map"></canvas>
+        <div class="score-container">
+            Score:
+            <span id="score">0</span>
+        </div>
+    </div>
+
+    <div class="control-buttons">
+        <button id="reset-button">Reset</button>
+        <button id="pause-button">Pause</button>
+        <button id="start-button">Start</button>
+    </div>
+
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

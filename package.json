@@ -1,22 +1,19 @@
 {
   "name": "websnake",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "repository": "git@github.com:PunGy/web-snake.git",
   "license": "MIT",
   "scripts": {
-    "serve": "http-server dist -p 8080",
-    "build": "webpack --env.MODE=development --progress",
-    "prod-build": "webpack --env.MODE=production --porgress",
-    "watch": "webpack -w --progress"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/preset-env": "^7.8.4",
-    "babel-loader": "^8.0.6",
-    "http-server": "^0.12.3",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "typescript": "^5.0.4",
+    "vite": "^4.3.8"
   },
-  "browserslist": "> 0.25%, not dead"
+  "dependencies": {
+    "fp-ts": "^2.15.0",
+    "rxjs": "^7.8.1"
+  }
 }

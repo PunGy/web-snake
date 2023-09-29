@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box;
+    font-family: "Sigmar One", serif;
+}
+
+body {
+    margin: 100px;
+}
+
+#game-state-message {
+    font-size: 30px;
+    text-align: center;
+    display: block;
+    margin: 20px 0;
+}
+
+#game-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+
+.score-container {
+    width: 10em;
+    font-size: 20px;
+    text-align: center;
+}
+
+.control-buttons {
+    width: 500px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.control-buttons > button {
+    padding: 0.5em 2em;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#reset-button {
+    background-color: #fc5050;
+}
+
+#pause-button {
+    background-color: #ccc;
+}
+
+#start-button {
+    background-color: #58fc73;
+}
